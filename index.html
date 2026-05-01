@@ -2,6 +2,16 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VFMX3LMMTR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VFMX3LMMTR');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>APTI · 艺术人格测试</title>
@@ -456,7 +466,7 @@
       }, 180);
     };
 
-    function showResult() {
+   function showResult() {
       document.getElementById("quiz").style.display = "none";
       const sorted = Object.entries(score).sort((a, b) => b[1] - a[1]);
 
@@ -475,13 +485,31 @@
           </div>
           <p style="font-size:1.1rem; margin-top:-5px;">${main.desc}</p>
           <img src="${main.img}" alt="${main.name}">
-          <p><b>典型表现</b>　${main.trait}</p>
+          
           <p><b>艺术风格</b>　${main.style}</p>
           <p style="line-height:1.6;">${formattedAnalysis}</p>
+          
           <hr>
-          <p style="font-size:1rem; opacity:0.9;">✨ 你同时也带有 <strong>「${second.name}」</strong> 副人格特质</p>
+          
+          <p style="font-size:1rem; opacity:0.9; margin-bottom: 24px;">✨ 你同时也带有 <strong>「${second.name}」</strong> 副人格特质</p>
+
+          <!-- ===== 新增：二维码分享区域 ===== -->
+          <div style="display: flex; flex-direction: column; align-items: center; padding: 20px 0; border-top: 1px dashed #ddd;">
+            <div style="width: 120px; height: 120px; border: 1px solid #000; padding: 8px; background: #fff; position: relative;">
+               <!-- 这里替换成你的实际二维码图片地址 -->
+               <img src="images/qrcode.jpg" style="width: 100%; margin: 0; border-radius: 0;" alt="二维码">
+               <!-- 装饰性四个角，增加机能感 -->
+               <div style="position: absolute; top: -2px; left: -2px; width: 10px; height: 10px; border-top: 2px solid #000; border-left: 2px solid #000;"></div>
+               <div style="position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; border-top: 2px solid #000; border-right: 2px solid #000;"></div>
+               <div style="position: absolute; bottom: -2px; left: -2px; width: 10px; height: 10px; border-bottom: 2px solid #000; border-left: 2px solid #000;"></div>
+               <div style="position: absolute; bottom: -2px; right: -2px; width: 10px; height: 10px; border-bottom: 2px solid #000; border-right: 2px solid #000;"></div>
+            </div>
+            <p style="font-size: 12px; color: #999; margin-top: 12px; letter-spacing: 2px;">分享我的艺术人格</p>
+          </div>
         </div>
+
         <div class="btn" onclick="location.reload()">再测一次</div>
+        <div style="height: 40px;"></div> <!-- 留白 -->
       `;
     }
 

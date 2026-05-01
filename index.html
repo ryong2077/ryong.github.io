@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>APTI · 艺术人格测试</title>
+  <style>
+    /* ===== 黑白灰机能赛博极简风 ===== */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(145deg, #f5f5f5 0%, #eaeaea 100%);
+      min-height: 100vh;
+      color: #000000;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ===== 首页 ===== */
+    .home {
+      height: 100vh;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #000000;
+      padding: 20px;
+      position: relative;
+    }
+
+    .home h1 {
+      font-size: 90px;
+      font-weight: 800;
+      margin: 0 0 8px;
+      letter-spacing: 10px;
+      color: #000000;
+    }
+
+    .home p {
+      margin-top: 8px;
+      opacity: 0.8;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      color: #333333;
+    }
+
+    .start-btn {
+      margin-top: 48px;
+      padding: 16px 36px;
+      background: transparent;
+      color: #000000;
+      border-radius: 60px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 2px;
+      border: 1.5px solid #000000;
+      transition: all 0.25s ease;
+      user-select: none;
+    }
+
+    .start-btn:hover {
+      background: #000000;
+      color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .start-btn:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    /* 首页底部提示 */
+    .home-footer {
+      position: absolute;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #666666;
+      font-size: 13px;
+      letter-spacing: 1.2px;
+      font-weight: 300;
+      line-height: 1.8;
+      padding: 8px 0;
+    }
+
+    .home-footer div {
+      opacity: 0.8;
+    }
+
+    /* ===== 测试页 & 结果页 容器 ===== */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 28px 24px;
+      margin-top: 24px;
+      border: 1px solid #ffffff;
+      color: #000000;
+      transition: box-shadow 0.3s;
+    }
+
+    .progress {
+      font-size: 14px;
+      color: #666666;
+      letter-spacing: 2px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      padding-left: 8px;
+    }
+
+    #question {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      color: #000000;
+      line-height: 1.5;
+    }
+
+    /* 选项 —— 默认无填充，点击后高亮 */
+    .option {
+      background: transparent;
+      padding: 16px 18px;
+      margin-top: 12px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #000000;
+      font-weight: 430;
+      border: 1.5px solid #000000;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+
+    .option:hover {
+      background: #00000008;
+    }
+
+    .option:active {
+      transform: scale(0.98);
+    }
+
+    .option.active {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+      transform: scale(1.02);
+    }
+
+    img {
+      width: 100%;
+      border-radius: 22px;
+      margin: 18px 0 12px;
+      border: 1px solid #ffffff;
+      display: block;
+    }
+
+    .btn {
+      margin-top: 28px;
+      padding: 16px 20px;
+      background: transparent;
+      color: #000000;
+      text-align: center;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      border: 1.5px solid #000000;
+      transition: all 0.25s;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background: #000000;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #333333, transparent);
+      margin: 24px 0 16px;
+    }
+
+    .card p {
+      color: #333333;
+      line-height: 1.6;
+    }
+
+    .card h2 {
+      font-weight: 600;
+      color: #000000;
+      margin-top: 0;
+      font-size: 28px;
+      letter-spacing: -0.3px;
+    }
+
+    .result-title {
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .result-sub {
+      font-size: 16px;
+      color: #666666;
+      font-weight: 400;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .result-main {
+      font-size: 38px;
+      font-weight: 700;
+      color: #000000;
+      letter-spacing: 2px;
+    }
+
+    b, strong {
+      color: #000000;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .home h1 { font-size: 80px; }
+      .start-btn { padding: 14px 28px; }
+      .card { padding: 22px 18px; }
+      #question { font-size: 18px; }
+      .result-main { font-size: 30px; }
+      .option { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== 首页 ===== -->
+<div id="home" class="home">
+  <h1>APTI来咯</h1>
+  <p>Art Persona · 测一测你的艺术人格</p>
+  <div class="start-btn" onclick="startTest()">开始测试</div>
+  <div class="home-footer">
+    <div>温馨提示: 该测试使用AI辅助开发仅供娱乐</div>
+    <div>开发者: RY设计工作室</div>
+    <div>小红书号: 10815075363</div>
+  </div>
+</div>
+
+<!-- ===== 测试页 ===== -->
+<div id="quiz" class="container" style="display:none;">
+  <div class="progress" id="progress"></div>
+  <div class="card">
+    <div id="question"></div>
+    <div id="options"></div>
+  </div>
+</div>
+
+<!-- ===== 结果页 ===== -->
+<div id="result" class="container" style="display:none;"></div>
+
+<script>
+  (function() {
+    const personalities = {
+      order: {
+        name: "秩序构成派",
+        desc: "你于无序中破局，用克制雕刻高级。",
+        trait: "理性、清晰、高级克制",
+        style: "极简主义 / 几何构成",
+        analysis: "你对世界有着极高的结构感知力。当别人在混乱与内耗中迷失时，你却能一眼看透事物的底层骨架。你绝不是没有情绪，而是拥有着极其高级的克制力，习惯将杂乱的思绪修剪成最优雅、精准的形态再展现。你心里有一套极其严密的个人美学标准：什么该留、什么该舍，绝不盲从。这种“在喧嚣中建立绝对秩序”的能力，让你拥有了一种不动声色却极具说服力的强大气场。",
+        img: "images/order.jpg"
+      },
+      romantic: {
+        name: "浪漫失序派",
+        desc: "你抛开刻板规则，让直觉流淌成诗。",
+        trait: "流动、敏感、绝对直觉",
+        style: "印象派 / 抽象抒情",
+        analysis: "你的内在仿佛自带一台高感光的镜头，对世界的温度、光线和情绪有着令人羡慕的捕捉力。当别人只能看到死板的规则时，你总能敏锐地察觉到那些流动着的、难以言喻的美。你不需要刻意去“设计”什么，因为你极强的直觉力本身就是一种罕见的天赋。你那带着呼吸感和一点点失序真实的表达，总能在不经意间触碰到别人心底最柔软的地方，让人感到无比迷人。",
+        img: "images/romantic.jpg"
+      },
+      dark: {
+        name: "暗黑戏剧派",
+        desc: "你敢于凝视深渊，将张力化为极致。",
+        trait: "深邃、张力、极致审美",
+        style: "巴洛克 / 哥特",
+        analysis: "你的灵魂极具重量感，拥有一种不流于表面的深刻。你不屑于轻飘飘的粉饰太平，因为你有一双能直视人性幽暗与深度的眼睛。这种敢于挖掘阴影、张力与隐秘欲望的勇气，造就了你身上那种极致、迷人且带着危险气息的磁场。你的存在往往极具戏剧张力，像是一场盛大的风暴，任何平庸的事物在你面前都会显得黯然失色，你注定要留下令人无法移开视线的印记。",
+        img: "images/dark.jpg"
+      },
+      minimal: {
+        name: "冷感留白派",
+        desc: "你摒弃多余喧嚣，在无声处掌控全局。",
+        trait: "松弛、清冷、边界感强",
+        style: "日式极简 / 空镜叙事",
+        analysis: "你拥有一种在这个时代极度稀缺的特质：高级的松弛与清冷感。你不需要靠大声喧哗来证明自己的存在，因为你太懂得“留白”的巨大力量。你在复杂的世界里游刃有余地保持着极佳的边界感，把情绪过滤得通透、安静且深邃。那些看似轻描淡写的简单背后，其实藏着你极高的审美门槛。别人或许只能看懂表象，而你却能在无声的空白处，构建出一个广阔而极具质感的宇宙。",
+        img: "images/minimal.jpg"
+      },
+      fairy: {
+        name: "童话想象派",
+        desc: "你拒绝坚硬沉闷，为现实镀上奇迹滤镜。",
+        trait: "澄澈、灵气、温柔造梦",
+        style: "童话插画 / 柔色幻想",
+        analysis: "在这个容易变得坚硬沉闷的世界里，你奇迹般地保留着极其珍贵的澄澈与灵气。你拥有一种魔法般的转化能力，能用最柔软、浪漫的滤镜去解构复杂的现实。你不是在逃避真实，而是内心足够强大且丰盈，才敢于用童话般的善意去拥抱世界。你那些带着温度、圆润且明亮的奇思妙想，总能像一束柔光一样，悄无声息地治愈周围的人，这是一种极其罕见且温柔的力量。",
+        img: "images/fairy.jpg"
+      },
+      cyber: {
+        name: "未来赛博派",
+        desc: "你碾碎陈旧常识，永远领先时代半步。",
+        trait: "前卫、先锋、降维打击",
+        style: "赛博朋克 / 数字艺术",
+        analysis: "你的思维频道似乎总是比周围人快上几个版本。你拥有一套极具前瞻性的感知雷达，能轻易捕捉到时代脉搏、科技进化与数字碎片中的新秩序。你不满足于咀嚼过去的经典，而是本能地被先锋、冷冽且充满速度感的事物吸引。你身上的那种未来感与打破常规的野心，让你注定不会成为一个循规蹈矩的跟随者，而是常常成为那个在视觉与认知上引领趋势的破局者。",
+        img: "images/cyber.jpg"
+      },
+      primitive: {
+        name: "野性原始派",
+        desc: "你撕开精致伪装，以旷野本能直击灵魂。",
+        trait: "旷野、真实、生命力",
+        style: "原始艺术 / 岩画感",
+        analysis: "你身上带有一种极具生命力的旷野气息，迷人而不可驯服。在这个充满工业流水线和过度包装的时代，你依然保留着对“真实”最极致的渴望。你不屑于精致的伪装，更相信直觉、本能和骨子里的力量感。你的审美带着一种粗粝的质感与迷人的手作痕迹，像野火或岩石一般纯粹且直接。这种不加雕饰、直击灵魂的野性美，让你在任何人群中都显得如此与众不同且充满力量。",
+        img: "images/primitive.jpg"
+      },
+      detail: {
+        name: "细节密集派",
+        desc: "你沉潜于微观，在方寸之间构建宇宙。",
+        trait: "专注、极致、微观宇宙",
+        style: "细密画 / 装饰风",
+        analysis: "你拥有着令人惊叹的微观感知力与专注度。当大多数人都在走马观花时，你却能耐下心来，看到事物最幽深处的纹理与层次。你对“完整”与“极致”有着近乎信仰般的追求，这种不愿敷衍的匠人精神，让你的内心世界如同一座错综复杂却又无比精妙的迷宫。你经手的每一样事物、表达的每一种情绪，都因为这种密集的细节质感，而拥有了经得起时间反复凝视的惊艳力量。",
+        img: "images/detail.jpg"
+      },
+      weird: {
+        name: "反差怪诞派",
+        desc: "你戏弄无聊逻辑，让荒诞成为最高级的幽默。",
+        trait: "幽默、反套路、高智感",
+        style: "超现实 / 荒谬图像",
+        analysis: "你是一个绝对的反套路大师，你的大脑里仿佛装着一座光怪陆离的游乐园。你极其聪慧地用一种幽默且带着点荒诞的方式，去消解日常的无聊与沉闷。别人眼里的“不合理”，在你手里总能产生出奇妙的化学反应。你那种带着点轻微挑衅和反差感的美学，其实是极高智商与创造力的体现。别人或许会觉得你有些“怪”，但这也正是你最无可替代、最能瞬间抓住眼球的闪光点。",
+        img: "images/weird.jpg"
+      },
+      emotion: {
+        name: "情绪爆发派",
+        desc: "你燃尽一切虚伪，你的坦诚本身即是惊艳。",
+        trait: "坦诚、浓烈、致命吸引",
+        style: "表现主义 / 厚涂",
+        analysis: "你是一个灵魂永远在燃烧的人，拥有一种极具感染力的生命烈度。你极其坦诚、痛快，绝不将自己的情绪困在虚伪的体面里。你的每一次表达都是一次真诚的自我剖白，带着排山倒海般的能量与直击人心的爆发力。在这个许多人都患有“表达羞耻”的时代，你那种毫无保留、敢爱敢恨的浓烈姿态，有着一种令人无法抗拒的吸引力，只要你站在那里，就是毫无争议的视觉中心。",
+        img: "images/emotion.jpg"
+      },
+      city: {
+        name: "都市观察派",
+        desc: "你剥离浮躁表象，把平淡岁月看成电影。",
+        trait: "洞察、清醒、电影质感",
+        style: "纪实 / 灰调写实",
+        analysis: "你拥有一双极具电影质感的眼睛，是一个在喧嚣人群中冷静清醒的旁观者。你不需要夸张的滤镜，因为你总能在最平凡的日常碎片、街角光影和时间的流逝中，剥离出极其高级的诗意。你那种不动声色却又入木三分的洞察力，让你的表达往往带着一种深沉且迷人的现实力量。这种在浮躁中保持清醒、在寻常中发现不凡的能力，赋予了你一种耐人寻味、且极具故事感的独特魅力。",
+        img: "images/city.jpg"
+      },
+      retro: {
+        name: "复古怀旧派",
+        desc: "你沉淀时光滤镜，让老旧痕迹成为经典。",
+        trait: "浪漫、底蕴、卓越品味",
+        style: "胶片 / 复古风",
+        analysis: "你的灵魂里住着一位优雅的时空旅人，对“时间”有着超乎常人的绝佳品味。在这个崇尚速朽的快时代，你极其浪漫地选择去打捞那些被岁月沉淀过的光泽与痕迹。你总能轻易地在泛黄的纸张、磨损的物件和老旧的旋律中，提取出一种极其迷人且有温度的情怀。你不是被困在过去，而是拥有着一种过滤轻浮、留下经典的卓越眼光，这让你的气场永远带着一种不过时的、高级的复古滤镜。",
+        img: "images/retro.jpg"
+      }
+    };
+
+    const map = {
+      A: ["order", "minimal", "detail"],
+      B: ["romantic", "fairy", "emotion"],
+      C: ["retro", "city", "primitive"],
+      D: ["cyber", "weird", "dark"]
+    };
+
+    // 全新设计的 24 道题目（场景化、无重复）
+    const questions = [
+      ["面对一个全新的创作项目，你的第一反应通常是？", ["建立大纲与逻辑框架", "先去捕捉瞬间的灵感和情绪", "从现实生活或旧物中寻找素材", "构思一个彻底打破常规的切入点"]],
+      ["如果用一种色调来形容你的内心世界，会是？", ["大面积的冷调留白与黑灰", "像水彩般交融的梦幻柔和色", "带着颗粒感的复古暖棕调", "高反差的霓虹或深邃暗色"]],
+      ["走进一家美术馆，你最先被哪类作品吸引？", ["几何构成与极简装置", "笔触狂放或充满诗意的画作", "记录时代变迁的纪实摄影", "怪诞猎奇的超现实数字艺术"]],
+      ["你理想的工作台/书桌是什么样的？", ["所有物品按分类摆放得井井有条", "充满鲜花、香氛和随手贴的便签", "摆着淘来的旧物件和粗糙的手作", "堆满电子设备或奇奇怪怪的盲盒"]],
+      ["画画或工作时如果出现了“意外的失误”，你会？", ["立刻修正重来，保持原本的严谨", "将错就错，顺着这个感觉继续发挥", "保留它，觉得这是真实的痕迹", "故意把它放大，变成一个荒诞的亮点"]],
+      ["选一部周末晚上想看的电影，你更倾向于？", ["逻辑严密的烧脑悬疑片", "情感细腻的浪漫文艺片", "充满时代气息的传记或纪录片", "视听震撼的科幻或暗黑题材"]],
+      ["闭上眼睛触摸一件物品，你最偏爱哪种触感？", ["光滑冰冷的大理石或金属", "柔软亲肤的丝绒或羊毛", "带有岁月包浆的原木或粗陶", "坚硬尖锐的晶体或异形合成材料"]],
+      ["让你感到最放松的背景音是？", ["规律滴答的钟声或克制的白噪音", "缓慢流淌的轻音乐或抒情曲", "市井街头的嘈杂或自然风雨声", "带有迷幻感的电子合成器节奏"]],
+      ["去一个陌生的城市旅行，你最想去哪里？", ["欣赏现代主义建筑与规整的街道", "没有目的地漫步，用心感受氛围", "去二手市场或老城区感受烟火气", "寻找最先锋的地下展览或废墟探险"]],
+      ["如果你要写一个故事，它的基调大概率会是？", ["冷静客观，抽丝剥茧的叙述", "细腻动人，聚焦人物内心的波动", "记录平凡小人物的真实一生", "充满黑色幽默与反转的狂想曲"]],
+      ["你最常做的一类梦是？", ["在某个迷宫里寻找出口或规律", "在天空中飞行或与水流融为一体", "回到小时候或某个特定的老地方", "梦见极其离谱、甚至非自然的怪物"]],
+      ["拿起相机，你最想记录下什么画面？", ["光影切割出的利落几何线条", "人物转瞬即逝的一个微妙神态", "斑驳的墙面与带有痕迹的老物件", "夜幕下充满赛博感的霓虹街景"]],
+      ["日常穿搭中，你个人最看重哪一点？", ["剪裁得体，版型干净利落", "材质柔软，有垂坠感和飘逸感", "耐穿舒适，带有水洗做旧的质感", "设计独特，有强烈的视觉冲击"]],
+      ["哪种情况会让你感到最为烦躁？", ["计划被打乱，失去对事物的控制感", "感觉被冷漠对待，没有情感交流", "被要求完美无瑕，不能展示真实面貌", "生活一成不变，极度无聊且缺乏刺激"]],
+      ["你最希望听到别人怎么评价你的作品？", ["结构严密，经得起反复推敲", "感染力极强，让人瞬间产生共鸣", "非常有生命力，真实且厚重", "脑洞太大了，从来没见过这种"]],
+      ["想象你走进一片森林，你最先关注的是？", ["树木排列的间距和阳光穿透的角度", "风吹过树叶的沙沙声和潮湿的空气", "脚下长满青苔的石头和腐朽的树根", "那些长得奇形怪状、颜色诡异的植物"]],
+      ["看到一面被涂鸦得乱七八糟的墙，你心想？", ["如果能重新规划排版一下就好了", "能感受到涂鸦者当时宣泄的情绪", "这是城市野生文化的一部分，很生动", "想在上面再加一笔更荒谬的图案"]],
+      ["在与他人交流时，你通常更倾向于？", ["条理清晰，直奔主题", "照顾情绪，更在意彼此的感受", "喜欢听对方分享过去真实的经历", "经常抛出冷笑话或非常跳脱的观点"]],
+      ["凭直觉选一个最吸引你的形状？", ["一个完美的正圆形", "像云朵一样没有固定边界的形状", "带有粗糙边缘的自然岩石形态", "极具攻击性的尖锐多边形"]],
+      ["夜深人静时，你脑海里最常浮现的是？", ["对明天待办事项的系统梳理", "一段旋律、一句诗或某种模糊的情绪", "回忆过去某个无法倒流的瞬间", "想象如果世界末日来了自己会怎样"]],
+      ["你最欣赏的故事结尾方式是？", ["一切谜题解开，形成完美的逻辑闭环", "留有余韵，男女主相视一笑的留白", "充满现实主义的无奈与妥协，很真实", "突然的惊天大反转，让人倒吸一口凉气"]],
+      ["如果你有收藏的习惯，你会收集什么？", ["按照系列和编号排好的同类物品", "别人写给自己的信件或有纪念意义的票根", "在各个地方捡来的石头、落叶或旧物件", "外星人手办、怪异面具等冷门奇葩物品"]],
+      ["哪种动物的特质更符合你的自我认知？", ["严谨独居、有强领地意识的猫", "自由飞翔、随季节感性迁徙的候鸟", "在原野上奔跑的野马或经历沧桑的老象", "生存在深海里长相奇特的未知生物"]],
+      ["在你的内心深处，艺术到底是什么？", ["一种建立秩序和规律的视觉语言", "一种宣泄情感和治愈内心的出口", "一种对抗时间遗忘的记录方式", "一种打破世俗常识的有趣武器"]]
+    ];
+
+    let current = 0;
+    let score = {};
+    let locked = false;
+    Object.keys(personalities).forEach(k => score[k] = 0);
+
+    window.startTest = function() {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      render();
+    };
+
+    function render() {
+      document.getElementById("progress").innerText = `${current + 1}/${questions.length}`;
+      document.getElementById("question").innerText = questions[current][0];
+
+      let html = "";
+      ["A", "B", "C", "D"].forEach((k, i) => {
+        html += `<div class="option" onclick="window.selectOption('${k}', this)">${k}. ${questions[current][1][i]}</div>`;
+      });
+      document.getElementById("options").innerHTML = html;
+    }
+
+    window.selectOption = function(k, el) {
+      if (locked) return;
+      locked = true;
+
+      document.querySelectorAll('.option').forEach(o => o.classList.remove('active'));
+      el.classList.add('active');
+
+      setTimeout(() => {
+        map[k].forEach(p => score[p] += 1);
+        current++;
+
+        locked = false;
+
+        if (current < questions.length) {
+          render();
+        } else {
+          showResult();
+        }
+      }, 180);
+    };
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      const sorted = Object.entries(score).sort((a, b) => b[1] - a[1]);
+
+      const main = personalities[sorted[0][0]];
+      const second = personalities[sorted[1][0]];
+
+      const formattedAnalysis = main.analysis.replace(/\n/g, '<br>');
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `
+        <div class="card">
+          <div class="result-title">
+            <div class="result-sub">🎨 你的艺术人格是：</div>
+            <div class="result-main">${main.name}</div>
+          </div>
+          <p style="font-size:1.1rem; margin-top:-5px;">${main.desc}</p>
+          <img src="${main.img}" alt="${main.name}">
+          <p><b>典型表现</b>　${main.trait}</p>
+          <p><b>艺术风格</b>　${main.style}</p>
+          <p style="line-height:1.6;">${formattedAnalysis}</p>
+          <hr>
+          <p style="font-size:1rem; opacity:0.9;">✨ 你同时也带有 <strong>「${second.name}」</strong> 副人格特质</p>
+        </div>
+        <div class="btn" onclick="location.reload()">再测一次</div>
+      `;
+    }
+
+    window.render = render;
+  })();
+</script>
+</body>
+</html>

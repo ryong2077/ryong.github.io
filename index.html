@@ -505,52 +505,79 @@
     };
 
    function showResult() {
-      document.getElementById("quiz").style.display = "none";
-      const sorted = Object.entries(score).sort((a, b) => b[1] - a[1]);
+  document.getElementById("quiz").style.display = "none";
+  const sorted = Object.entries(score).sort((a, b) => b[1] - a[1]);
 
-      const main = personalities[sorted[0][0]];
-      const second = personalities[sorted[1][0]];
+  const main = personalities[sorted[0][0]];
+  const second = personalities[sorted[1][0]];
 
-      const formattedAnalysis = main.analysis.replace(/\n/g, '<br>');
+  // ---- 处理简介截断 ----
+  const fullText = main.analysis;                      // 原始文本（可能含换行）
+  const shortLen = 40;                                 // 默认显示字数
+  const isLong = fullText.length > shortLen;
+  const shortText = isLong ? fullText.slice(0, shortLen) + '...' : fullText;
+  const formattedFull = fullText.replace(/\n/g, '<br>'); // 完整文本带换行
 
-      const resultDiv = document.getElementById("result");
-      resultDiv.style.display = "block";
-      resultDiv.innerHTML = `
-        <div class="card">
-          <div class="result-title">
-            <div class="result-sub">🎨 你的艺术人格是：</div>
-            <div class="result-main">${main.name}</div>
-          </div>
-          <p style="font-size:1.1rem; margin-top:-5px;">${main.desc}</p>
-          <img src="${main.img}" alt="${main.name}">
-          
-          <p><b>艺术风格</b>　${main.style}</p>
-          <p style="line-height:1.6;">${formattedAnalysis}</p>
-          
-          <hr>
-          
-          <p style="font-size:1rem; opacity:0.9; margin-bottom: 24px;">✨ 你同时也带有 <strong>「${second.name}」</strong> 副人格特质</p>
+  let analysisHTML = '';
+  if (isLong) {
+    analysisHTML = `
+      <span class="analysis-short">${shortText}</span>
+      <span class="analysis-full" style="display:none;">${formattedFull}</span>
+      <span class="analysis-toggle" onclick="toggleAnalysis(this)" style="color:#000; border-bottom:1px dashed #000; cursor:pointer; font-size:14px; margin-left:6px;">显示更多</span>
+    `;
+  } else {
+    analysisHTML = `<span>${formattedFull}</span>`;
+  }
 
-          <!-- ===== 新增：二维码分享区域 ===== -->
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 20px 0; border-top: 1px dashed #ddd;">
-            <div style="width: 120px; height: 120px; border: 1px solid #000; padding: 8px; background: #fff; position: relative;">
-               <!-- 这里替换成你的实际二维码图片地址 -->
-               <img src="images/qrcode.jpg" style="width: 100%; margin: 0; border-radius: 0;" alt="二维码">
-               <!-- 装饰性四个角，增加机能感 -->
-               <div style="position: absolute; top: -2px; left: -2px; width: 10px; height: 10px; border-top: 2px solid #000; border-left: 2px solid #000;"></div>
-               <div style="position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; border-top: 2px solid #000; border-right: 2px solid #000;"></div>
-               <div style="position: absolute; bottom: -2px; left: -2px; width: 10px; height: 10px; border-bottom: 2px solid #000; border-left: 2px solid #000;"></div>
-               <div style="position: absolute; bottom: -2px; right: -2px; width: 10px; height: 10px; border-bottom: 2px solid #000; border-right: 2px solid #000;"></div>
-            </div>
-            <p style="font-size: 12px; color: #999; margin-top: 12px; letter-spacing: 2px;">解锁我的艺术人格</p>
-          </div>
+  const resultDiv = document.getElementById("result");
+  resultDiv.style.display = "block";
+  resultDiv.innerHTML = `
+    <div class="card">
+      <div class="result-title">
+        <div class="result-sub">🎨 你的艺术人格是：</div>
+        <div class="result-main">${main.name}</div>
+      </div>
+      <p style="font-size:1.1rem; margin-top:-5px;">${main.desc}</p>
+      <img src="${main.img}" alt="${main.name}">
+      
+      <p><b>艺术风格</b>　${main.style}</p>
+      <p style="line-height:1.6;">${analysisHTML}</p>
+      
+      <hr>
+      
+      <p style="font-size:1rem; opacity:0.9; margin-bottom: 24px;">✨ 你同时也带有 <strong>「${second.name}」</strong> 副人格特质</p>
+
+      <!-- 二维码分享区域（保持不变） -->
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 20px 0; border-top: 1px dashed #ddd;">
+        <div style="width: 120px; height: 120px; border: 1px solid #000; padding: 8px; background: #fff; position: relative;">
+          <img src="images/qrcode.jpg" style="width: 100%; margin: 0; border-radius: 0;" alt="二维码">
+          <div style="position: absolute; top: -2px; left: -2px; width: 10px; height: 10px; border-top: 2px solid #000; border-left: 2px solid #000;"></div>
+          <div style="position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; border-top: 2px solid #000; border-right: 2px solid #000;"></div>
+          <div style="position: absolute; bottom: -2px; left: -2px; width: 10px; height: 10px; border-bottom: 2px solid #000; border-left: 2px solid #000;"></div>
+          <div style="position: absolute; bottom: -2px; right: -2px; width: 10px; height: 10px; border-bottom: 2px solid #000; border-right: 2px solid #000;"></div>
         </div>
+        <p style="font-size: 12px; color: #999; margin-top: 12px; letter-spacing: 2px;">分享我的艺术人格</p>
+      </div>
+    </div>
 
-        <div class="btn" onclick="location.reload()">再测一次</div>
-        <div style="height: 40px;"></div> <!-- 留白 -->
-      `;
-    }
+    <div class="btn" onclick="location.reload()">再测一次</div>
+    <div style="height: 40px;"></div>
+  `;
+}
 
+window.toggleAnalysis = function(btn) {
+  const shortSpan = btn.parentElement.querySelector('.analysis-short');
+  const fullSpan = btn.parentElement.querySelector('.analysis-full');
+  if (fullSpan.style.display === 'none') {
+    shortSpan.style.display = 'none';
+    fullSpan.style.display = 'inline';
+    btn.innerText = '收起';
+  } else {
+    fullSpan.style.display = 'none';
+    shortSpan.style.display = 'inline';
+    btn.innerText = '显示更多';
+  }
+};
     window.render = render;
   })();
 </script>
